@@ -1,14 +1,8 @@
-const fs = require('fs');
 const path = require('path');
 
-const {
-  buildReadme,
-  loadResources,
-  validateResources,
-} = require('./lib/resource-pipeline');
+const { loadResources, validateResources } = require('./lib/resource-pipeline');
 
 const ROOT_DIR = path.resolve(__dirname, '..');
-const README_PATH = path.join(ROOT_DIR, 'README.md');
 
 function main() {
   const resources = loadResources(ROOT_DIR);
@@ -22,9 +16,7 @@ function main() {
     process.exit(1);
   }
 
-  const readme = buildReadme(resources);
-  fs.writeFileSync(README_PATH, readme, 'utf8');
-  console.log(`Generated README with ${resources.length} resources.`);
+  console.log(`Validated ${resources.length} resources successfully.`);
 }
 
 main();

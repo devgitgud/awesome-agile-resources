@@ -1,4 +1,4 @@
-name: Generate README
+name: Validate and Generate Assets
 
 on:
   workflow_dispatch:
@@ -7,12 +7,18 @@ on:
       - main
     paths:
       - 'resources/**/*.md'
-      - 'scripts/generate-readme.js'
+      - 'scripts/**/*.js'
+        - 'docs/resources.schema.json'
+        - 'package.json'
+        - 'package-lock.json'
       - '.github/workflows/generate-readme.yml'
   pull_request:
     paths:
       - 'resources/**/*.md'
-      - 'scripts/generate-readme.js'
+      - 'scripts/**/*.js'
+      - 'docs/resources.schema.json'
+      - 'package.json'
+      - 'package-lock.json'
       - '.github/workflows/generate-readme.yml'
 
 permissions:
@@ -31,25 +37,37 @@ jobs:
         with:
           node-version: 20
 
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate resources
+        run: node scripts/validate-resources.js
+
       - name: Generate README from resources
         run: node scripts/generate-readme.js
 
-      - name: Ensure README is up to date on pull requests
+      - name: Generate JSON export from resources
+        run: node scripts/generate-json.js
+
+      - name: Validate generated JSON against schema
+        run: node scripts/validate-schema.js
+
+      - name: Ensure generated files are up to date on pull requests
         if: github.event_name == 'pull_request'
         run: |
-          if git diff --quiet README.md; then
-            echo "README.md is up to date."
+          if git diff --quiet README.md resources.json; then
+            echo "Generated files are up to date."
           else
-            echo "::error::README.md is out of date. Run node scripts/generate-readme.js and commit the changes."
-            git diff -- README.md
+            echo "::error::Generated files are out of date. Run node scripts/generate-readme.js and node scripts/generate-json.js, then commit changes."
+            git diff -- README.md resources.json
             exit 1
           fi
 
-      - name: Commit updated README on main
+      - name: Commit updated generated files on main
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: 'chore(readme): regenerate from resources'
-          file_pattern: README.md
+          commit_message: 'chore(generate): regenerate README and resources JSON'
+          file_pattern: README.md resources.json
           commit_user_name: github-actions[bot]
           commit_user_email: 41898282+github-actions[bot]@users.noreply.github.com

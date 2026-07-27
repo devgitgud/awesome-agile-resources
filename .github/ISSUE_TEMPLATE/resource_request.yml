@@ -66,6 +66,41 @@ body:
     validations:
       required: true
 
+  - type: dropdown
+    id: price
+    attributes:
+      label: Price (optional)
+      description: Select pricing model when known
+      options:
+        - Unknown
+        - Free
+        - Open Source
+        - Paid
+    validations:
+      required: false
+
+  - type: input
+    id: audience
+    attributes:
+      label: Audience (optional)
+      description: Comma-separated audiences
+      placeholder: Scrum Masters, Product Owners, Developers
+    validations:
+      required: false
+
+  - type: dropdown
+    id: difficulty
+    attributes:
+      label: Difficulty (optional)
+      description: How hard is this resource for a newcomer?
+      options:
+        - Beginner
+        - Intermediate
+        - Advanced
+        - Unknown
+    validations:
+      required: false
+
   - type: input
     id: submitter_name
     attributes:

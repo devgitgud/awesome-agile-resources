@@ -1,6 +1,7 @@
 ---
+id: jira
 title: Jira
-category: Tool
+category: Tools
 subcategory: Project Management
 website: https://www.atlassian.com/software/jira
 tags:
@@ -9,6 +10,8 @@ tags:
   - Issue Tracking
 price: Paid
 featured: false
+status: active
+lastReviewed: 2026-07-27
 ---
 
 # Jira

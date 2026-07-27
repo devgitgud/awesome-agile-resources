@@ -1,6 +1,7 @@
 ---
+id: linear
 title: Linear
-category: Tool
+category: Tools
 subcategory: Issue Tracking
 website: https://linear.app
 tags:
@@ -9,6 +10,8 @@ tags:
   - Issue Tracking
 price: Paid
 featured: true
+status: active
+lastReviewed: 2026-07-27
 ---
 
 # Linear

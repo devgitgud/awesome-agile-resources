@@ -11,6 +11,13 @@ Thanks for helping improve this community-driven list.
 
 You can also open a direct pull request if you prefer. Add one Markdown file per resource under the matching folder in `resources/`.
 
+## Source of truth and generated files
+
+- `resources/**/*.md` is the single source of truth.
+- `README.md` is generated automatically.
+- `resources.json` is generated automatically for Pointaro and other consumers.
+- Do not manually edit generated files.
+
 ## Resource quality requirements
 
 Every resource entry must include:
@@ -22,12 +29,35 @@ Every resource entry must include:
 - Alternatives
 - Useful and relevant tags
 
+Required frontmatter fields:
+
+- `id` (stable, unique, lowercase kebab-case)
+- `title`
+- `category`
+- `website`
+- `tags`
+
+Optional metadata fields supported:
+
+- `subcategory`
+- `price`
+- `featured`
+- `audience`
+- `difficulty`
+- `githubUrl`
+- `officialUrl`
+- `pointaroRecommended`
+- `description`
+- `status` (`active`, `archived`, `deprecated`)
+- `lastReviewed` (`YYYY-MM-DD`)
+
 ## Review process
 
-1. Automated checks validate format and regenerate `README.md`.
-2. Maintainers verify quality, uniqueness, and category fit.
-3. If changes are needed, maintainers request updates.
-4. Once approved, the pull request is merged.
+1. Automated checks validate format and metadata.
+2. `README.md` and `resources.json` are regenerated from Markdown resources.
+3. Maintainers verify quality, uniqueness, and category fit.
+4. If changes are needed, maintainers request updates.
+5. Once approved, the pull request is merged.
 
 ## No spam and promotion policy
 
@@ -45,6 +75,8 @@ Do not submit:
 Before submitting, search existing entries in `resources/` and `README.md`.
 
 If a similar resource already exists, improve the existing entry instead of adding another duplicate.
+
+Resource IDs must remain stable over time. If you rename a file, keep the same `id` unless you are intentionally creating a new resource record.
 
 ## What makes a good submission
 
@@ -68,6 +100,12 @@ Weak submission example:
 - Include valid YAML frontmatter at the top of each file
 - Keep naming lowercase with dashes for filenames
 - Keep claims accurate and avoid unverifiable statements
+- Keep category values to the allowed list in `docs/data-format.md`
+- Run local checks before opening a PR:
+  - `node scripts/validate-resources.js`
+  - `node scripts/generate-readme.js`
+  - `node scripts/generate-json.js`
+  - `node scripts/validate-schema.js`
 
 ## License and conduct
 

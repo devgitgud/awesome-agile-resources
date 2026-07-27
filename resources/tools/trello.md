@@ -1,6 +1,7 @@
 ---
+id: trello
 title: Trello
-category: Tool
+category: Tools
 subcategory: Kanban Board
 website: https://trello.com
 tags:
@@ -9,6 +10,8 @@ tags:
   - Task Management
 price: Free
 featured: false
+status: active
+lastReviewed: 2026-07-27
 ---
 
 # Trello

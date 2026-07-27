@@ -1,6 +1,7 @@
 ---
+id: martin-fowler-agile-articles
 title: Martin Fowler Agile Articles
-category: Website
+category: Websites
 subcategory: Technical and Agile Practices
 website: https://martinfowler.com/agile.html
 tags:
@@ -9,6 +10,8 @@ tags:
   - Continuous Delivery
 price: Free
 featured: false
+status: active
+lastReviewed: 2026-07-27
 ---
 
 # Martin Fowler Agile Articles

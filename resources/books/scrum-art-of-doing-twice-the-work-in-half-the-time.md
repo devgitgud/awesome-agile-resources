@@ -1,6 +1,7 @@
 ---
+id: scrum-art-of-doing-twice-the-work-in-half-the-time
 title: 'Scrum: The Art of Doing Twice the Work in Half the Time'
-category: Book
+category: Books
 subcategory: Scrum
 website: https://www.penguinrandomhouse.com/books/232913/scrum-by-jeff-sutherland/
 tags:
@@ -9,6 +10,8 @@ tags:
   - Leadership
 price: Paid
 featured: false
+status: active
+lastReviewed: 2026-07-27
 ---
 
 # Scrum: The Art of Doing Twice the Work in Half the Time

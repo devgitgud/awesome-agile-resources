@@ -1,6 +1,7 @@
 ---
+id: scrum-guide
 title: Scrum Guide
-category: Website
+category: Websites
 subcategory: Official Framework Guide
 website: https://scrumguides.org
 tags:
@@ -9,6 +10,8 @@ tags:
   - Roles
 price: Free
 featured: true
+status: active
+lastReviewed: 2026-07-27
 ---
 
 # Scrum Guide

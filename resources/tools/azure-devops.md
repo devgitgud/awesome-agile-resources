@@ -1,6 +1,7 @@
 ---
+id: azure-devops
 title: Azure DevOps
-category: Tool
+category: Tools
 subcategory: ALM Platform
 website: https://azure.microsoft.com/products/devops
 tags:
@@ -9,6 +10,8 @@ tags:
   - Planning
 price: Paid
 featured: false
+status: active
+lastReviewed: 2026-07-27
 ---
 
 # Azure DevOps

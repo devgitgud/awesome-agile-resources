@@ -1,6 +1,7 @@
 ---
+id: sprint-retrospective-template
 title: Sprint Retrospective Template
-category: Template
+category: Templates
 subcategory: Retrospective Facilitation
 website: https://miro.com/templates/sprint-retrospective/
 tags:
@@ -9,6 +10,8 @@ tags:
   - Team Improvement
 price: Free
 featured: false
+status: active
+lastReviewed: 2026-07-27
 ---
 
 # Sprint Retrospective Template

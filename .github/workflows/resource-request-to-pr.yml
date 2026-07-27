@@ -44,12 +44,19 @@ jobs:
             return match[1].trim().replace(/^_No response_$/i, '').trim();
           }
 
+          function yamlString(value) {
+            return JSON.stringify(String(value || '').trim());
+          }
+
           const resourceName = getField('Resource name');
           const websiteUrl = getField('Website URL');
           const category = getField('Category');
           const description = getField('Description');
           const whyUse = getField('Why should Agile teams use it?');
           const tagsRaw = getField('Tags');
+          const price = getField('Price (optional)') || 'Unknown';
+          const audienceRaw = getField('Audience (optional)');
+          const difficulty = getField('Difficulty (optional)') || 'Unknown';
           const submitter = getField('Submitter name (optional)') || issueUser;
 
           const categoryMap = {
@@ -61,17 +68,6 @@ jobs:
             Podcasts: 'podcasts',
             Videos: 'videos',
             Communities: 'communities'
-          };
-
-          const categorySingularMap = {
-            Tools: 'Tool',
-            Books: 'Book',
-            Courses: 'Course',
-            Websites: 'Website',
-            Templates: 'Template',
-            Podcasts: 'Podcast',
-            Videos: 'Video',
-            Communities: 'Community'
           };
 
           if (!resourceName || !websiteUrl || !category || !description || !whyUse || !tagsRaw) {
@@ -100,6 +96,11 @@ jobs:
             .map((tag) => tag.trim())
             .filter(Boolean);
 
+          const audience = (audienceRaw || 'Agile Teams')
+            .split(',')
+            .map((item) => item.trim())
+            .filter(Boolean);
+
           if (tags.length === 0) {
             console.error('At least one tag is required.');
             process.exit(1);
@@ -113,14 +114,21 @@ jobs:
 
           const content = [
             '---',
-            `title: ${resourceName}`,
-            `category: ${categorySingularMap[category] || category}`,
-            'subcategory: Community Submitted',
-            `website: ${websiteUrl}`,
+            `id: ${yamlString(slug)}`,
+            `title: ${yamlString(resourceName)}`,
+            `category: ${yamlString(category)}`,
+            `subcategory: ${yamlString('Community Submitted')}`,
+            `website: ${yamlString(websiteUrl)}`,
             'tags:',
-            ...tags.map((tag) => `  - ${tag}`),
-            'price: Unknown',
+            ...tags.map((tag) => `  - ${yamlString(tag)}`),
+            `price: ${yamlString(price)}`,
             'featured: false',
+            `status: ${yamlString('active')}`,
+            'audience:',
+            ...audience.map((item) => `  - ${yamlString(item)}`),
+            `difficulty: ${yamlString(difficulty)}`,
+            'pointaroRecommended: false',
+            `description: ${yamlString(description.replace(/\n+/g, ' ').trim())}`,
             '---',
             '',
             `# ${resourceName}`,

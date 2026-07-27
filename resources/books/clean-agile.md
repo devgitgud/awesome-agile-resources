@@ -1,6 +1,7 @@
 ---
+id: clean-agile
 title: Clean Agile
-category: Book
+category: Books
 subcategory: Agile Foundations
 website: https://www.pearson.com/en-us/subject-catalog/p/clean-agile-back-to-basics/P200000003471
 tags:
@@ -9,6 +10,8 @@ tags:
   - Software Craftsmanship
 price: Paid
 featured: true
+status: active
+lastReviewed: 2026-07-27
 ---
 
 # Clean Agile

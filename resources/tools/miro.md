@@ -1,6 +1,7 @@
 ---
+id: miro
 title: Miro
-category: Tool
+category: Tools
 subcategory: Collaboration Whiteboard
 website: https://miro.com
 tags:
@@ -9,6 +10,8 @@ tags:
   - Remote Teams
 price: Paid
 featured: false
+status: active
+lastReviewed: 2026-07-27
 ---
 
 # Miro

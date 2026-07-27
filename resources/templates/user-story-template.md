@@ -1,6 +1,7 @@
 ---
+id: user-story-template
 title: User Story Template
-category: Template
+category: Templates
 subcategory: Backlog Refinement
 website: https://www.atlassian.com/agile/project-management/user-stories
 tags:
@@ -9,6 +10,8 @@ tags:
   - Product Management
 price: Free
 featured: false
+status: active
+lastReviewed: 2026-07-27
 ---
 
 # User Story Template

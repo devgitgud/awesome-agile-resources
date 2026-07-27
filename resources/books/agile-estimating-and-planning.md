@@ -1,6 +1,7 @@
 ---
+id: agile-estimating-and-planning
 title: Agile Estimating and Planning
-category: Book
+category: Books
 subcategory: Planning and Estimation
 website: https://www.pearson.com/en-us/subject-catalog/p/agile-estimating-and-planning/P200000003366
 tags:
@@ -9,6 +10,8 @@ tags:
   - Scrum
 price: Paid
 featured: false
+status: active
+lastReviewed: 2026-07-27
 ---
 
 # Agile Estimating and Planning
