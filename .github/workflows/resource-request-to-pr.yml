@@ -1,0 +1,201 @@
+name: Resource Request to PR
+
+on:
+  issues:
+    types:
+      - opened
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  create-pr:
+    if: contains(github.event.issue.labels.*.name, 'resource-request')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build resource file from issue
+        id: build
+        env:
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_USER: ${{ github.event.issue.user.login }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+
+          const body = process.env.ISSUE_BODY || '';
+          const issueNumber = process.env.ISSUE_NUMBER;
+          const issueUser = process.env.ISSUE_USER;
+          const issueUrl = process.env.ISSUE_URL;
+
+          function getField(label) {
+            const escaped = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp(`###\\s+${escaped}\\s*\\n([\\s\\S]*?)(?=\\n###\\s+|$)`, 'i');
+            const match = body.match(regex);
+            if (!match) return '';
+            return match[1].trim().replace(/^_No response_$/i, '').trim();
+          }
+
+          const resourceName = getField('Resource name');
+          const websiteUrl = getField('Website URL');
+          const category = getField('Category');
+          const description = getField('Description');
+          const whyUse = getField('Why should Agile teams use it?');
+          const tagsRaw = getField('Tags');
+          const submitter = getField('Submitter name (optional)') || issueUser;
+
+          const categoryMap = {
+            Tools: 'tools',
+            Books: 'books',
+            Courses: 'courses',
+            Websites: 'websites',
+            Templates: 'templates',
+            Podcasts: 'podcasts',
+            Videos: 'videos',
+            Communities: 'communities'
+          };
+
+          const categorySingularMap = {
+            Tools: 'Tool',
+            Books: 'Book',
+            Courses: 'Course',
+            Websites: 'Website',
+            Templates: 'Template',
+            Podcasts: 'Podcast',
+            Videos: 'Video',
+            Communities: 'Community'
+          };
+
+          if (!resourceName || !websiteUrl || !category || !description || !whyUse || !tagsRaw) {
+            console.error('Missing required fields from issue form.');
+            process.exit(1);
+          }
+
+          if (!/^https?:\/\//i.test(websiteUrl)) {
+            console.error('Website URL must start with http:// or https://');
+            process.exit(1);
+          }
+
+          const folder = categoryMap[category];
+          if (!folder) {
+            console.error(`Unsupported category: ${category}`);
+            process.exit(1);
+          }
+
+          const slug = resourceName
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/(^-|-$)/g, '');
+
+          const tags = tagsRaw
+            .split(',')
+            .map((tag) => tag.trim())
+            .filter(Boolean);
+
+          if (tags.length === 0) {
+            console.error('At least one tag is required.');
+            process.exit(1);
+          }
+
+          const filePath = path.join('resources', folder, `${slug}.md`);
+          if (fs.existsSync(filePath)) {
+            console.error(`Resource file already exists: ${filePath}`);
+            process.exit(1);
+          }
+
+          const content = [
+            '---',
+            `title: ${resourceName}`,
+            `category: ${categorySingularMap[category] || category}`,
+            'subcategory: Community Submitted',
+            `website: ${websiteUrl}`,
+            'tags:',
+            ...tags.map((tag) => `  - ${tag}`),
+            'price: Unknown',
+            'featured: false',
+            '---',
+            '',
+            `# ${resourceName}`,
+            '',
+            '## Description',
+            '',
+            description,
+            '',
+            '## Why we recommend it',
+            '',
+            whyUse,
+            '',
+            '## Pros',
+            '',
+            '- To be added during review',
+            '',
+            '## Cons',
+            '',
+            '- To be added during review',
+            '',
+            '## Best for',
+            '',
+            'To be added during review',
+            '',
+            '## Alternatives',
+            '',
+            '- To be added during review',
+            '',
+            '## Submission metadata',
+            '',
+            `- Submitted by: ${submitter}`,
+            `- Source issue: ${issueUrl}`,
+            ''
+          ].join('\n');
+
+          fs.mkdirSync(path.dirname(filePath), { recursive: true });
+          fs.writeFileSync(filePath, content, 'utf8');
+
+          const branch = `resource-request/${issueNumber}-${slug}`;
+
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `file_path=${filePath}\n`);
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `branch=${branch}\n`);
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `resource_name=${resourceName}\n`);
+          NODE
+
+      - name: Create pull request
+        id: cpr
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: 'feat(resources): add ${{ steps.build.outputs.resource_name }} from issue #${{ github.event.issue.number }}'
+          title: 'feat(resources): add ${{ steps.build.outputs.resource_name }}'
+          body: |
+            Auto-generated from resource request issue #${{ github.event.issue.number }}.
+
+            This PR adds:
+            - `${{ steps.build.outputs.file_path }}`
+
+            Next steps for maintainers:
+            - Verify quality and relevance
+            - Improve Pros/Cons and Best for if needed
+            - Merge after review
+          branch: ${{ steps.build.outputs.branch }}
+          add-paths: |
+            ${{ steps.build.outputs.file_path }}
+
+      - name: Comment with PR link
+        if: steps.cpr.outputs.pull-request-url != ''
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue_number = context.issue.number;
+            const prUrl = `${{ steps.cpr.outputs.pull-request-url }}`;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number,
+              body: `Thanks for the submission. A draft PR has been created for review: ${prUrl}`
+            });

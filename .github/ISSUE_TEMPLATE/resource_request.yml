@@ -1,0 +1,75 @@
+name: Resource Request
+description: Suggest a new Agile resource for the curated list
+title: '[Resource Request]: '
+labels:
+  - resource-request
+body:
+  - type: input
+    id: resource_name
+    attributes:
+      label: Resource name
+      description: Official resource name
+      placeholder: Jira
+    validations:
+      required: true
+
+  - type: input
+    id: website_url
+    attributes:
+      label: Website URL
+      description: Canonical URL for the resource
+      placeholder: https://example.com
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      description: Select the category that best matches this resource
+      options:
+        - Tools
+        - Books
+        - Courses
+        - Websites
+        - Templates
+        - Podcasts
+        - Videos
+        - Communities
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Short and factual description of the resource
+      placeholder: What is this resource and what problem does it solve?
+    validations:
+      required: true
+
+  - type: textarea
+    id: why_use
+    attributes:
+      label: Why should Agile teams use it?
+      description: Practical reasons this is helpful for Agile practitioners
+      placeholder: Explain the Agile value and use cases
+    validations:
+      required: true
+
+  - type: input
+    id: tags
+    attributes:
+      label: Tags
+      description: Comma-separated tags
+      placeholder: Scrum, Agile Coaching, Retrospectives
+    validations:
+      required: true
+
+  - type: input
+    id: submitter_name
+    attributes:
+      label: Submitter name (optional)
+      description: Leave blank if you prefer
+    validations:
+      required: false

@@ -1,0 +1,55 @@
+name: Generate README
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'resources/**/*.md'
+      - 'scripts/generate-readme.js'
+      - '.github/workflows/generate-readme.yml'
+  pull_request:
+    paths:
+      - 'resources/**/*.md'
+      - 'scripts/generate-readme.js'
+      - '.github/workflows/generate-readme.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Generate README from resources
+        run: node scripts/generate-readme.js
+
+      - name: Ensure README is up to date on pull requests
+        if: github.event_name == 'pull_request'
+        run: |
+          if git diff --quiet README.md; then
+            echo "README.md is up to date."
+          else
+            echo "::error::README.md is out of date. Run node scripts/generate-readme.js and commit the changes."
+            git diff -- README.md
+            exit 1
+          fi
+
+      - name: Commit updated README on main
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'chore(readme): regenerate from resources'
+          file_pattern: README.md
+          commit_user_name: github-actions[bot]
+          commit_user_email: 41898282+github-actions[bot]@users.noreply.github.com
