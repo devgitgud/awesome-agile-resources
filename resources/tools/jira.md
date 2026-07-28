@@ -41,5 +41,4 @@ Medium to large Agile teams that need configurable workflows and detailed tracki
 ## Alternatives
 
 - Linear
-- Azure DevOps
 - Trello
