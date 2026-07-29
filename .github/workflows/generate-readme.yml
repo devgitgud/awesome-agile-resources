@@ -8,9 +8,9 @@ on:
     paths:
       - 'resources/**/*.md'
       - 'scripts/**/*.js'
-        - 'docs/resources.schema.json'
-        - 'package.json'
-        - 'package-lock.json'
+      - 'docs/resources.schema.json'
+      - 'package.json'
+      - 'package-lock.json'
       - '.github/workflows/generate-readme.yml'
   pull_request:
     paths:
