@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-07-28",
+  "generatedAt": "2026-07-29",
   "count": 28,
   "resources": [
     {
@@ -390,14 +390,16 @@
     },
     {
       "id": "pointaro",
-      "title": "Pointaro",
+      "title": "Pointaro - Online Scrum Poker Tool",
       "category": "Tools",
       "subcategory": "Scrum Poker",
       "website": "https://pointaro.app",
       "tags": [
         "Scrum Poker",
-        "Estimation",
-        "Planning"
+        "Planning Poker",
+        "Agile Estimation",
+        "Story Points",
+        "Sprint Planning"
       ],
       "price": "Free",
       "featured": false,
@@ -408,7 +410,7 @@
       "pointaroRecommended": false,
       "status": "active",
       "lastReviewed": "2026-07-28",
-      "description": "Pointaro is a lightweight online Scrum poker tool for planning poker sessions, estimation, and team alignment.",
+      "description": "Pointaro is a lightweight online Scrum Poker tool that helps Agile teams estimate user stories, align on effort, and run effective planning sessions.",
       "slug": "pointaro",
       "file": "resources/tools/pointaro.md"
     },

@@ -68,14 +68,14 @@ Mural is a digital whiteboard platform for Agile workshops, retrospectives, and 
 - Tags: Retrospectives, Facilitation, Remote Teams, Workshop Templates
 - Featured: No
 
-### Pointaro
+### Pointaro - Online Scrum Poker Tool
 
-Pointaro is a lightweight online Scrum poker tool for planning poker sessions, estimation, and team alignment.
+Pointaro is a lightweight online Scrum Poker tool that helps Agile teams estimate user stories, align on effort, and run effective planning sessions.
 
 - Details: [resources/tools/pointaro.md](resources/tools/pointaro.md)
 - Website: https://pointaro.app
 - Price: Free
-- Tags: Scrum Poker, Estimation, Planning
+- Tags: Scrum Poker, Planning Poker, Agile Estimation, Story Points, Sprint Planning
 - Featured: No
 
 ### Trello
